@@ -19,7 +19,7 @@ from collections import defaultdict
 
 from nltk.tree import ParentedTree
 from nltk.treeprettyprinter import TreePrettyPrinter
-import sys
+import re
 
 
 
@@ -69,7 +69,7 @@ app.layout = html.Div([
     
     dcc.ConfirmDialogProvider( html.Button('Submit to sNLP', style={"height": "auto", "margin-left": 314}),id='submit_button'), #message='Danger danger! Are you sure you want to continue?'
    # dbc.Row([html.Div(id='textoutput', style={'whiteSpace': 'pre-line','margin-left': 320, 'width': '1000px', 'display' : "inline-block !important"})])
-    html.Div(id='textoutput', style={'whiteSpace': 'pre', 'margin-left': 320, 'width': '1000px'})
+    html.Div(id='textoutput', style={'whiteSpace': 'pre', 'margin-left': 320, 'width': '1000px', "font-family": "monospace"})
 ])
 
 
@@ -206,8 +206,9 @@ def text_output(submit_n_clicks,value, name, email, phone):
 def output_nlp(Json_data, tokn, Pos, Ner, Parse, Dep_parse):
     parse_tree = ParentedTree.fromstring(Parse)
     pretty_tree = TreePrettyPrinter(parse_tree).text()
-    #return "NLP Parse: \n {}".format(pretty_tree)
-    return pretty_tree
+    tree = pretty_tree.split("\n")
+    parse_print = '\n'.join(tree)
+    return "NLP Parse(sentence structure): \n{}".format(parse_print)
     
 if __name__ == "__main__":
 
